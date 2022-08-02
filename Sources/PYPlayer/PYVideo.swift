@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct PYVideo: Equatable {
-    var url: URL
-    var title: String
-    var cover: String?
+public struct PYVideo: Equatable {
+    public var url: URL
+    public var title: String
+    public var cover: String?
     
 }
 
