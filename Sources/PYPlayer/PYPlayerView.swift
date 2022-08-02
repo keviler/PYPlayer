@@ -10,7 +10,11 @@ import SwiftUI
 import Combine
 
 public struct PYPlayerView: View {
-    @ObservedObject var parameters: PlayerParameters
+    @ObservedObject public var parameters: PlayerParameters
+    
+    public init(parameters: PlayerParameters) {
+        self.parameters = parameters
+    }
     public var body: some View {
         ZStack {
             PYPlayerHostingView(parameters: parameters)

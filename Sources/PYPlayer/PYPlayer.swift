@@ -11,7 +11,7 @@ import UIKit
 import SwiftUI
 
 public class PYPlayer {
-    enum PlaybackState {
+    public enum PlaybackState {
         case unknown
         case playing
         case paused
@@ -19,7 +19,7 @@ public class PYPlayer {
         case failed
         case stopped
     }
-    enum LoadState {
+    public enum LoadState {
         case unknown
         case prepare
         case playable
@@ -53,25 +53,25 @@ public class PYPlayer {
         }
     }
 
-    var playStateChanged: ((PYPlayer, PlaybackState)-> Void)?
-    var loadStateChanged: ((PYPlayer, LoadState)-> Void)?
-    var onPrepare: ((PYPlayer, URL)-> Void)?
-    var onReady: ((PYPlayer, TimeInterval)-> Void)?
-    var onPlayChange: ((PYPlayer, TimeInterval)-> Void)?
-    var onBufferChange: ((PYPlayer, TimeInterval)-> Void)?
-    var onEnd: ((PYPlayer, URL?)-> Void)?
-    var onFailed: ((PYPlayer, URL?)-> Void)?
-    var presentationSizeChanged: ((PYPlayer, CGSize)-> Void)?
+    public var playStateChanged: ((PYPlayer, PlaybackState)-> Void)?
+    public var loadStateChanged: ((PYPlayer, LoadState)-> Void)?
+    public var onPrepare: ((PYPlayer, URL)-> Void)?
+    public var onReady: ((PYPlayer, TimeInterval)-> Void)?
+    public var onPlayChange: ((PYPlayer, TimeInterval)-> Void)?
+    public var onBufferChange: ((PYPlayer, TimeInterval)-> Void)?
+    public var onEnd: ((PYPlayer, URL?)-> Void)?
+    public var onFailed: ((PYPlayer, URL?)-> Void)?
+    public var presentationSizeChanged: ((PYPlayer, CGSize)-> Void)?
 
-    var isPlaying: Bool = false
-    var isPreparedToPlay: Bool = false
-    var isReadyToPlay: Bool = false
-    var loadState: LoadState = .unknown {
+    public var isPlaying: Bool = false
+    public var isPreparedToPlay: Bool = false
+    public var isReadyToPlay: Bool = false
+    public var loadState: LoadState = .unknown {
         didSet {
             self.loadStateChanged?(self, loadState)
         }
     }
-    var url: URL? = nil {
+    public var url: URL? = nil {
         didSet {
             guard url != nil, url != oldValue else { return }
             if self.player != nil {
@@ -80,14 +80,14 @@ public class PYPlayer {
             prepareToPlay()
         }
     }
-    var rate: Float = 1.0 {
+    public var rate: Float = 1.0 {
         didSet {
             if (self.player != nil && fabsf(player?.playbackRate ?? 1) > 0.00001) {
                 self.player?.playbackRate = rate
             }
         }
     }
-    var muted: Bool = false {
+    public var muted: Bool = false {
         didSet {
             if (muted) {
                 self.lastVolume = self.player?.playbackVolume ?? 0
@@ -102,7 +102,7 @@ public class PYPlayer {
             }
         }
     }
-    var scalingMode: IJKMPMovieScalingMode = .aspectFit {
+    public var scalingMode: IJKMPMovieScalingMode = .aspectFit {
         didSet {
             self.player?.scalingMode = scalingMode
         }
@@ -122,11 +122,11 @@ public class PYPlayer {
         onPrepare?(self, url)
     }
 
-    func reloadPlayer() {
+    public func reloadPlayer() {
         prepareToPlay()
     }
 
-    func play() {
+    public func play() {
         guard !self.isPlaying else { return }
         if (!isPreparedToPlay) {
             prepareToPlay()
@@ -141,7 +141,7 @@ public class PYPlayer {
         }
     }
 
-    func pause() {
+    public func pause() {
         if let timer = self.timer {
             timer.fireDate = Date.distantFuture
         }
@@ -150,7 +150,7 @@ public class PYPlayer {
         self.playState = .paused
     }
 
-    func stop() {
+    public func stop() {
         loadStateChanged = nil
         playStateChanged = nil
         onPlayChange = nil
@@ -172,7 +172,7 @@ public class PYPlayer {
         playState = .stopped
     }
 
-    func replay() {
+    public func replay() {
         seek(to: 0) { finished in
             if (finished) {
                 self.play()
@@ -180,7 +180,7 @@ public class PYPlayer {
         }
     }
 
-    func seek(to time: TimeInterval, completionHandler: ((Bool)->Void)? = nil)  {
+    public func seek(to time: TimeInterval, completionHandler: ((Bool)->Void)? = nil)  {
         if (self.player?.duration ?? 0 > 0) {
             self.player?.currentPlaybackTime = time
             if self.player?.playbackState == .stopped || self.player?.playbackState == .paused {
@@ -192,7 +192,7 @@ public class PYPlayer {
         }
     }
 
-    func thumbnailImageAtCurrentTime() -> UIImage? {
+    public func thumbnailImageAtCurrentTime() -> UIImage? {
         self.player?.thumbnailImageAtCurrentTime()
     }
 

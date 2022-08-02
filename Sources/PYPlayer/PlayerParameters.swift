@@ -8,8 +8,8 @@
 import Foundation
 
 public class PlayerParameters: ObservableObject {
-    @Published var videos: [PYVideo]
-    @Published var index: Int {
+    @Published public var videos: [PYVideo]
+    @Published public var index: Int {
         didSet {
             if self.videos.count > self.index {
                 player?.url = self.videos[self.index].url
@@ -17,25 +17,25 @@ public class PlayerParameters: ObservableObject {
         }
     }
     
-    @Published var player: PYPlayer?
+    @Published public var player: PYPlayer?
     var rate: Double {
         get {
             Double(self.player?.rate ?? 1.0)
         }
     }
-    @Published var totalDuration: Double = 0
-    @Published var bufferTime: Double = 0
-    @Published var time: Double = 0
-    @Published var isDragging: Bool = false {
+    @Published public var totalDuration: Double = 0
+    @Published public var bufferTime: Double = 0
+    @Published public var time: Double = 0
+    @Published public var isDragging: Bool = false {
         didSet {
             seekTime = 0
         }
     }
-    @Published var seekTime: Double = 0
-    @Published var isFullScreen: Bool = false
-    @Published var playbackState: PYPlayer.PlaybackState = .unknown
-    @Published var loadState: PYPlayer.LoadState = .prepare
-    @Published var didEnd: Bool = false {
+    @Published public var seekTime: Double = 0
+    @Published public var isFullScreen: Bool = false
+    @Published public var playbackState: PYPlayer.PlaybackState = .unknown
+    @Published public var loadState: PYPlayer.LoadState = .prepare
+    @Published public var didEnd: Bool = false {
         didSet {
             if didEnd == true {
                 if videos.count - 1 > index {
@@ -45,7 +45,7 @@ public class PlayerParameters: ObservableObject {
             }
         }
     }
-    var currentVideo: PYVideo? {
+    public var currentVideo: PYVideo? {
         get {
             if videos.count > index {
                 return videos[index % videos.count]
@@ -53,7 +53,7 @@ public class PlayerParameters: ObservableObject {
             return nil
         }
     }
-    var playProgress: Double {
+    public var playProgress: Double {
         get {
             if totalDuration > 0 {
                 return time / totalDuration
@@ -62,7 +62,7 @@ public class PlayerParameters: ObservableObject {
             }
         }
     }
-    var seekProgress: Double {
+    public var seekProgress: Double {
         get {
             if isDragging {
                 if totalDuration > 0 {
@@ -76,12 +76,12 @@ public class PlayerParameters: ObservableObject {
         }
     }
 
-    init(videos: [PYVideo] = [], index: Int = 0) {
+    public init(videos: [PYVideo] = [], index: Int = 0) {
         self.videos = videos
         self.index = index
     }
     
-    func stop() {
+    public func stop() {
         self.player?.stop()
     }
     
