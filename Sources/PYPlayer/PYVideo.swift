@@ -11,7 +11,7 @@ public struct PYVideo: Equatable {
     public var url: URL
     public var title: String
     public var cover: String?
-    init(url: URL, title: String, cover: String? = nil) {
+    public init(url: URL, title: String, cover: String? = nil) {
         self.url = url
         self.title = title
         self.cover = cover
